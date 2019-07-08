@@ -23,19 +23,19 @@ docker exec -it robotoy bash
 # Usage
 
 ```
-# Attach to docker 
+# attach to docker 
 cd bin
 
-# Start game
+# start game
 ruby start.rb
 
-# Game info 
+# game info 
 -h
 ```
 
 # Testing
 
 ```
-# Attach to docker
+# attach to docker
 rspec spec
 ```
