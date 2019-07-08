@@ -18,9 +18,6 @@ docker rm robotoy
 
 # attach to container
 docker exec -it robotoy bash
-
-# in case you get access error during app start
-sudo chmod +x docker/start.sh
 ```
 
 # Usage
