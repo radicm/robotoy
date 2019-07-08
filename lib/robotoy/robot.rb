@@ -43,10 +43,10 @@ module Robotoy
       case @direction.current
       when NORTH
         r = @x + MOVE_STEP
-        @x = r if r < @x_length
+        @x = r if r <= @x_length
       when EAST
         r = @y + MOVE_STEP
-        @y = r if r < @y_length
+        @y = r if r <= @y_length
       when SOUTH
         r = @x - MOVE_STEP
         @x = r unless r.negative?
