@@ -15,7 +15,7 @@ module Robotoy
 
     # @param [Integer] x_length
     # @param [Integer] y_length
-    def initialize(x_length = X_LENGTH, y_length = Y_LENGTH)
+    def initialize(x_length = X_LENGTH, y_length = Y_LENGTH, logger = Logger)
       raise ArgumentError, "Table length can't be smaller that 1" if x_length < 1 || y_length < 1
 
       @x_coordinate_length = x_length
@@ -24,6 +24,7 @@ module Robotoy
       @y_coordinate        = 0
       @directions          = [NORTH, EAST, SOUTH, WEST]
       @direction           = nil
+      @logger              = logger
     end
 
     def move
@@ -62,7 +63,7 @@ module Robotoy
 
     # @return [String]
     def report
-      puts "Output: #{@x_coordinate},#{@y_coordinate},#{@direction}"
+      @logger.info("Output: #{@x_coordinate},#{@y_coordinate},#{@direction}")
     end
 
     # @param [String] direction

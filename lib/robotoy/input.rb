@@ -11,8 +11,9 @@ module Robotoy
     EXIT   = "exit".freeze
 
     # @param [Object] robot
-    def initialize(robot = Robot.new)
+    def initialize(robot = Robot.new, logger = Logger)
       @robot      = robot
+      @logger     = logger
       @robot_init = false
     end
 
@@ -37,7 +38,7 @@ module Robotoy
         when EXIT
           break
         else
-          puts "Invalid command!"
+          @logger.error("Invalid command!")
         end
       end
     end
@@ -46,7 +47,7 @@ module Robotoy
     # @return [Array][String]
     def parse_commands(input)
       command, args = input.split(" ")
-      args = args.split(",").map { |n| Integer(n) rescue ArgumentError n } if args
+      args          = args.split(",").map { |n| Integer(n) rescue ArgumentError n } if args
 
       [command, args]
     end
@@ -59,7 +60,7 @@ module Robotoy
         LEFT or RIGHT   -> changing directions
       HELP
 
-      puts message
+      @logger.info(message)
     end
   end
 end
