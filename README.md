@@ -23,14 +23,11 @@ docker exec -it robotoy bash
 # Usage
 
 ```
-# attach to docker 
-cd bin
-
 # start game
-ruby start.rb
+ruby bin/start.rb
 
 # game info 
--h
+help
 ```
 
 # Testing

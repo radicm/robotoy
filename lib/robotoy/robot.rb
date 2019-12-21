@@ -1,15 +1,14 @@
 module Robotoy
   class Robot
-
     X_LENGTH = 5
     Y_LENGTH = 5
 
     NORTH = "NORTH".freeze
     SOUTH = "SOUTH".freeze
-    EAST = "EAST".freeze
-    WEST = "WEST".freeze
+    EAST  = "EAST".freeze
+    WEST  = "WEST".freeze
 
-    LEFT = "LEFT".freeze
+    LEFT  = "LEFT".freeze
     RIGHT = "RIGHT".freeze
 
     MOVE_STEP = 1
@@ -17,80 +16,68 @@ module Robotoy
     # @param [Integer] x_length
     # @param [Integer] y_length
     def initialize(x_length = X_LENGTH, y_length = Y_LENGTH)
-      raise "Table length can't be smaller that 1" if x_length < 1 || y_length < 1
+      raise ArgumentError, "Table length can't be smaller that 1" if x_length < 1 || y_length < 1
 
-      @x_length = x_length
-      @y_length = y_length
-      @x = 0
-      @y = 0
-
-      north = Direction.new(WEST, EAST, NORTH)
-      east = Direction.new(NORTH, SOUTH, EAST)
-      south = Direction.new(EAST, WEST, SOUTH)
-      west = Direction.new(SOUTH, NORTH, WEST)
-
-      north.left = west; north.right = east
-      east.left = north; east.right = south
-      south.left = east; south.right = west
-      west.left = south; west.right = north
-
-      @directions = [north,east,south,west]
-
-      @direction = nil
+      @x_coordinate_length = x_length
+      @y_coordinate_length = y_length
+      @x_coordinate        = 0
+      @y_coordinate        = 0
+      @directions          = [NORTH, EAST, SOUTH, WEST]
+      @direction           = nil
     end
 
     def move
-      case @direction.current
+      case @direction
       when NORTH
-        r = @x + MOVE_STEP
-        @x = r if r <= @x_length
+        x_coordinate  = @x_coordinate + MOVE_STEP
+        @x_coordinate = x_coordinate if x_coordinate <= @x_coordinate_length
       when EAST
-        r = @y + MOVE_STEP
-        @y = r if r <= @y_length
+        y_coordinate  = @y_coordinate + MOVE_STEP
+        @y_coordinate = y_coordinate if y_coordinate <= @y_coordinate_length
       when SOUTH
-        r = @x - MOVE_STEP
-        @x = r unless r.negative?
+        x_coordinate  = @x_coordinate - MOVE_STEP
+        @x_coordinate = x_coordinate unless x_coordinate.negative?
       when WEST
-        r = @y - MOVE_STEP
-        @y = r unless r.negative?
+        y_coordinate  = @y_coordinate - MOVE_STEP
+        @y_coordinate = y_coordinate unless y_coordinate.negative?
       else
-        raise "Unsupported direction!"
+        raise ArgumentError, "Unsupported direction!"
       end
     end
 
-    # @param [Integer] x
-    # @param [Integer] y
+    # @param [Integer] x_coordinate
+    # @param [Integer] y_coordinate
     # @param [String] direction
-    def place(x, y, direction)
-      raise "Invalid coordinates!" if x.negative? || y.negative?
+    def place(x_coordinate, y_coordinate, direction)
+      raise ArgumentError, "Invalid coordinates!" if x_coordinate.negative? || y_coordinate.negative?
+      raise ArgumentError, "Invalid direction!" unless [NORTH, EAST, SOUTH, WEST].include? direction
 
-      @x = x
-      @y = y
-      @direction = @directions.select { |n| n.current == direction }.first
+      @x_coordinate = x_coordinate
+      @y_coordinate = y_coordinate
+      @direction    = direction
+      loop { @directions.first == direction ? break : @directions.rotate! }
 
-      raise "Invalid direction!" if @direction.nil?
+      raise ArgumentError, "Invalid direction!" if @direction.nil?
     end
 
     # @return [String]
     def report
-      puts "Output: #{@x},#{@y},#{@direction.current}"
+      puts "Output: #{@x_coordinate},#{@y_coordinate},#{@direction}"
     end
 
     # @param [String] direction
     def rotate(direction)
       @direction = case direction
                    when LEFT
-                     @direction.left
+                     @directions.rotate!(-1).first
                    when RIGHT
-                     @direction.right
+                     @directions.rotate!.first
                    else
-                     raise "Invalid direction!"
+                     raise ArgumentError, "Invalid direction!"
                    end
       true
     end
 
-    private
-
-    class Direction < Struct.new(:left, :right, :current); end
+    Direction = Struct.new(:left, :right, :current)
   end
 end

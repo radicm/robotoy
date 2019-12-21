@@ -1,5 +1,5 @@
 Rails:
-  Enabled: true
+  Enabled: false
 
 AllCops:
   Exclude:
@@ -55,9 +55,9 @@ Metrics/ModuleLength:
     - "spec/**/*"
 
 Metrics/MethodLength:
-  Description: "Limit method lines to 20"
+  Description: "Limit method lines to 25"
   Enabled: true
-  Max: 20
+  Max: 25
   Exclude:
     - "db/**/*"
     - "app/lib/booking/list_available_slots.rb"

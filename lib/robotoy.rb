@@ -4,6 +4,6 @@ require "robotoy/input"
 module Robotoy
   def self.start_game
     input = Robotoy::Input.new
-    input.loop
+    input.run
   end
 end

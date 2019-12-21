@@ -1,11 +1,11 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
 group :development, :test do
-  gem 'pry'
+  # A runtime developer console and IRB alternative with powerful introspection capabilities. Read more: https://github.com/pry/pry
+  gem "pry"
 end
 
 group :test do
-  gem 'rspec'
+  # Behaviour Driven Development for Ruby. Read more: https://github.com/rspec/rspec
+  gem "rspec"
 end
-
-
